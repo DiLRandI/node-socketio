@@ -1,6 +1,6 @@
 (function () {
-  const userName = decodeURIComponent((location.search.replace('?Name=', '').split('+').join(' ').trim()))
-  document.title += ' ' + userName
+  const username = decodeURIComponent((location.search.replace('?Name=', '').split('+').join(' ').trim()))
+  document.title += ' ' + username
 
   /**
    * @type {HTMLDivElement}
@@ -26,7 +26,7 @@
     chatMsg.focus()
   }
 
-  socket.emit('joinUser', { userName })
+  socket.emit('joinUser', { username })
   socket.on('message', (msg) => {
     const timeEl = document.createElement('span')
     timeEl.className = 'chat-time'
@@ -34,7 +34,7 @@
 
     const userEl = document.createElement('span')
     userEl.className = 'chat-user'
-    userEl.innerText = msg.userName
+    userEl.innerText = msg.username
 
     const msgEl = document.createElement('span')
     msgEl.className = 'chat-message'

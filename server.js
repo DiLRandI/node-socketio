@@ -9,9 +9,9 @@ const server = http.createServer(app)
 const io = socketIo(server)
 const port = 3000
 const botName = 'chat bot'
-const formatMessage = (userName, message) => {
+const formatMessage = (username, message) => {
   return {
-    userName,
+    username,
     message,
     time: new Date().toLocaleTimeString()
   }
@@ -24,9 +24,9 @@ app.use(express.static(path.join(__dirname, 'public')))
 io.on('connection', socket => {
   console.log('Client connected')
 
-  socket.on('joinUser', ({ userName }) => {
+  socket.on('joinUser', ({ username }) => {
     socket.emit('message', formatMessage(botName, 'Welcome to the chat'))
-    socket.broadcast.emit('message', formatMessage(botName, `${userName} join the chat`))
+    socket.broadcast.emit('message', formatMessage(botName, `${username} join the chat`))
   })
 
   socket.on('disconnect', () => {
