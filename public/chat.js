@@ -14,26 +14,40 @@
    * @type {HTMLButtonElement}
    */
   const chatBtn = document.getElementById('sendMsg')
+  // eslint-disable-next-line no-undef
   const socket = io()
 
   chatBtn.onclick = (ev) => {
     ev.preventDefault()
-    socket.emit('message', chatMsg.value)
+    if (chatMsg.value.trim() !== '') {
+      socket.emit('chatMsg', chatMsg.value)
+    }
+    chatMsg.value = ''
+    chatMsg.focus()
   }
 
+  socket.emit('joinUser', { userName })
   socket.on('message', (msg) => {
     const timeEl = document.createElement('span')
-    timeEl.innerText = new Date().toLocaleTimeString()
-    timeEl.style = 'margin: 10px;'
+    timeEl.className = 'chat-time'
+    timeEl.innerText = msg.time
+
+    const userEl = document.createElement('span')
+    userEl.className = 'chat-user'
+    userEl.innerText = msg.userName
 
     const msgEl = document.createElement('span')
-    msgEl.innerText = msg
-    msgEl.style = 'margin: 10px; padding: 5px'
+    msgEl.className = 'chat-message'
+    msgEl.innerText = msg.message
 
     const chatEl = document.createElement('div')
+    chatEl.className = 'chat-message-display'
     chatEl.appendChild(timeEl)
+    chatEl.appendChild(userEl)
     chatEl.appendChild(msgEl)
 
     chat.appendChild(chatEl)
+
+    chat.scrollTop = chat.scrollHeight
   })
 }())

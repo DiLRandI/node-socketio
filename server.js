@@ -8,15 +8,34 @@ const socketIo = require('socket.io')
 const server = http.createServer(app)
 const io = socketIo(server)
 const port = 3000
+const botName = 'chat bot'
+const formatMessage = (userName, message) => {
+  return {
+    userName,
+    message,
+    time: new Date().toLocaleTimeString()
+  }
+}
+
 app.use(logger('dev'))
 
 app.use(express.static(path.join(__dirname, 'public')))
 
 io.on('connection', socket => {
   console.log('Client connected')
-  socket.broadcast.emit('message', 'User join the chat')
+
+  socket.on('joinUser', ({ userName }) => {
+    socket.emit('message', formatMessage(botName, 'Welcome to the chat'))
+    socket.broadcast.emit('message', formatMessage(botName, `${userName} join the chat`))
+  })
+
   socket.on('disconnect', () => {
-    io.emit('message', 'User left the channel')
+    io.emit('message', formatMessage(botName, 'User left the channel'))
+  })
+
+  socket.on('chatMsg', (msg) => {
+    console.log('Chat message ', msg)
+    io.emit('message', formatMessage(botName, msg))
   })
 })
 

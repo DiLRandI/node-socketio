@@ -1,15 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Welcome - </title>
+    <link rel="stylesheet" href="chat.css">
 </head>
+
 <body>
-    <div style="display: flex; justify-content: center;">
+    <div class="container">
         <div>
-            <div id="chat" style="min-width: 600px;min-height: 800px;max-width: 600px; max-height: 800px; overflow-y: scroll;">
+            <div id="chat"
+                style="min-width: 600px;min-height: 800px;max-width: 600px; max-height: 800px; overflow-y: scroll; background-color: lightblue;">
 
             </div>
             <div id="chatBox">
@@ -21,4 +25,5 @@
 </body>
 <script src="/socket.io/socket.io.js"></script>
 <script src="chat.js"></script>
+
 </html>
